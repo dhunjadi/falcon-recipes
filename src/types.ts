@@ -1,3 +1,9 @@
+export type User = {
+    name: string;
+    email: string;
+    password: string;
+};
+
 export type Recipe = {
     id: string;
     title: string;
@@ -6,3 +12,13 @@ export type Recipe = {
     instructions: string;
     tags: string[];
 };
+
+export type LoginForm = {
+    email: string;
+    password: string;
+};
+
+export type RegisterForm = {
+    name: string;
+    confirmPassword: string;
+} & LoginForm;

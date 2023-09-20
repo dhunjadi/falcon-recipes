@@ -1,0 +1,59 @@
+.p-home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 5rem;
+
+    &__recipes {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: center;
+        gap: 1rem;
+
+        & > * {
+            aspect-ratio: 1/1;
+        }
+
+        @include respond(tablet) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        @include respond(desktop) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    &__search {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        input {
+            flex: 0 0 100%;
+            border: 0.2rem solid $color-primary-light;
+            border-radius: 99rem;
+            background-color: $color-primary-light;
+            margin-bottom: 2rem;
+            color: $color-primary-dark;
+            padding: 1.5rem 3rem;
+
+            &::placeholder {
+                color: $color-primary-light;
+            }
+
+            &:focus {
+                outline: none;
+                border: 0.2rem solid $color-primary-dark;
+            }
+
+            @include respond(tablet) {
+                flex: 0 0 80%;
+            }
+
+            @include respond(desktop) {
+                flex: 0 0 50%;
+            }
+        }
+    }
+}

@@ -9,7 +9,7 @@ export type Recipe = {
     title: string;
     dateCreated: string;
     authorId: string;
-    instructions: string;
+    instructions: string[];
     tags: string[];
 };
 

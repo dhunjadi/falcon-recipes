@@ -8,10 +8,30 @@ const headers = {
     'Content-Type': 'application/json',
 };
 
+export const getAppUsers = createAsyncThunk('user/getAppUsers', async () => {
+    try {
+        const response = await axios.get(`/getAppUsers`, {headers});
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to add a new user. Please try again later.');
+    }
+});
+
 export const registerUser = createAsyncThunk('user/registerUser', async ({name, email, password}: User) => {
     try {
-        const response = await axios.post(`https://addappuser-zazjbx7nka-uc.a.run.app`, {name, email, password}, {headers});
-        console.log(response.data);
+        const response = await axios.post(`/registerUser`, {name, email, password}, {headers});
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to add a new user. Please try again later.');
+    }
+});
+
+export const userlogin = createAsyncThunk('user/userLogin', async ({email, password}: Pick<User, 'email' | 'password'>) => {
+    try {
+        const response = await axios.post(`/userLogin`, {email, password}, {headers});
+        return response;
     } catch (err) {
         console.error(err);
         throw new Error('Failed to add a new user. Please try again later.');

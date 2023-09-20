@@ -1,9 +1,16 @@
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useEffect, useState} from 'react';
 import RecipeCard from '../components/RecipeCard';
-import {RootState, useAppSelector} from '../store/store';
+import {RootState, useAppDispatch, useAppSelector} from '../store/store';
+import {getRecipes} from '../store/thunks/recipeThunks';
 
 const HomePage = () => {
     const {recipeList} = useAppSelector((state: RootState) => state.recipe);
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(getRecipes());
+    }, [dispatch]);
 
     const [searchText, setSearchText] = useState<string>('');
 

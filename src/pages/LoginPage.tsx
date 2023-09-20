@@ -3,10 +3,9 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Link, useNavigate} from 'react-router-dom';
 import {LoginForm} from '../types';
 import {loginPageValidationSchema} from '../validations';
-import {userList} from '../data/userList';
 import {useAppDispatch} from '../store/store';
-import {setLoggedInUser} from '../store/features/userSlice';
 import {useEffect, useState} from 'react';
+import {userlogin} from '../store/thunks/userThunks';
 
 const LoginPage: React.FC = () => {
     const {
@@ -24,12 +23,9 @@ const LoginPage: React.FC = () => {
     const isDisabled = !watchFields.email || !watchFields.password;
 
     const onSubmit = async ({email, password}: LoginForm) => {
-        const foundUser = userList.find((user) => user.email === email && user.password === password);
-        if (foundUser) {
-            dispatch(setLoggedInUser(foundUser));
-            navigate('/');
-        }
-        setShowLoginError(true);
+        dispatch(userlogin({email, password}));
+
+        navigate('/');
     };
 
     useEffect(() => {

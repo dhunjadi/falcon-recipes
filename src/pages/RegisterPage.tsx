@@ -23,13 +23,13 @@ const RegisterPage = () => {
     const isDisabled = !watchFields.name || !watchFields.email || !watchFields.password || !watchFields.confirmPassword;
 
     const onSubmit = ({name, email, password}: RegisterForm) => {
-        dispatch(registerUser({name, email, password}));
+        dispatch(registerUser({id: new Date().toString(), name, email, password})); // ako ne uspije CORS, napravit lokalno
         navigate('/login');
     };
 
     return (
         <div className="p-register">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form className="p-register__form" onSubmit={handleSubmit(onSubmit)}>
                 <input type="text" placeholder="Enter your name" id="name" {...register('name')} autoFocus />
                 {errors.name && <span>{errors.name.message}</span>}
 
@@ -42,7 +42,7 @@ const RegisterPage = () => {
                 <input type="password" placeholder="Confirm Password" id="confirmPassword" {...register('confirmPassword')} />
                 {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
 
-                <button type="submit" disabled={isDisabled}>
+                <button className="p-register__form_button" type="submit" disabled={isDisabled}>
                     Register
                 </button>
             </form>

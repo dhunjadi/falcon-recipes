@@ -1,5 +1,5 @@
 import {ZodType, z} from 'zod';
-import {LoginForm, NewRecipe, RegisterForm} from './types';
+import {LoginForm, NewRecipeForm, RegisterForm} from './types';
 
 export const loginPageValidationSchema: ZodType<LoginForm> = z.object({
     email: z.string().email(),
@@ -26,32 +26,18 @@ export const registerValidationSchema: ZodType<RegisterForm> = z
         message: "Password don't match",
     });
 
-export const newRecipeValidationSchema: z.ZodType<NewRecipe> = z.object({
+export const newRecipeValidationSchema: z.ZodType<NewRecipeForm> = z.object({
     title: z.string(),
     dateCreated: z.string(),
     authorId: z.string(),
-    instructions: z
-        .array(z.string())
-        .min(1)
-        .refine(
-            (value) => {
-                // Ensure that all values are non-empty strings
-                return value.every((item) => item.trim() !== '');
-            },
-            {
-                message: 'Instructions must be a non-empty array of strings.',
-            }
-        ),
-    tags: z
-        .array(z.string())
-        .min(1)
-        .refine(
-            (value) => {
-                // Ensure that all values are non-empty strings
-                return value.every((item) => item.trim() !== '');
-            },
-            {
-                message: 'Tags must be a non-empty array of strings.',
-            }
-        ),
+    instructions: z.array(
+        z.object({
+            instruction: z.string().min(1).max(500), // Adjust the min and max length as needed
+        })
+    ),
+    tags: z.array(
+        z.object({
+            tag: z.string().min(1).max(255), // Adjust the min and max length as needed
+        })
+    ),
 });

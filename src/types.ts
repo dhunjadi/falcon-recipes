@@ -16,6 +16,18 @@ export type Recipe = {
 
 export type NewRecipe = Omit<Recipe, 'id'>;
 
+export type NewRecipeForm = {
+    title: string;
+    dateCreated: string;
+    authorId: string;
+    instructions: {
+        instruction: string;
+    }[];
+    tags: {
+        tag: string;
+    }[];
+};
+
 export type LoginForm = {
     email: string;
     password: string;

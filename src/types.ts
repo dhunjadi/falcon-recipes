@@ -14,6 +14,8 @@ export type Recipe = {
     tags: string[];
 };
 
+export type NewRecipe = Omit<Recipe, 'id'>;
+
 export type LoginForm = {
     email: string;
     password: string;

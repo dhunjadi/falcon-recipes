@@ -1,5 +1,5 @@
 import {ZodType, z} from 'zod';
-import {LoginForm, RegisterForm} from './types';
+import {LoginForm, NewRecipe, RegisterForm} from './types';
 
 export const loginPageValidationSchema: ZodType<LoginForm> = z.object({
     email: z.string().email(),
@@ -25,3 +25,33 @@ export const registerValidationSchema: ZodType<RegisterForm> = z
         path: ['confirmPassword'],
         message: "Password don't match",
     });
+
+export const newRecipeValidationSchema: z.ZodType<NewRecipe> = z.object({
+    title: z.string(),
+    dateCreated: z.string(),
+    authorId: z.string(),
+    instructions: z
+        .array(z.string())
+        .min(1)
+        .refine(
+            (value) => {
+                // Ensure that all values are non-empty strings
+                return value.every((item) => item.trim() !== '');
+            },
+            {
+                message: 'Instructions must be a non-empty array of strings.',
+            }
+        ),
+    tags: z
+        .array(z.string())
+        .min(1)
+        .refine(
+            (value) => {
+                // Ensure that all values are non-empty strings
+                return value.every((item) => item.trim() !== '');
+            },
+            {
+                message: 'Tags must be a non-empty array of strings.',
+            }
+        ),
+});

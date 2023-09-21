@@ -10,11 +10,9 @@ const headers = {
 export const getRecipes = createAsyncThunk('user/getRecipes', async () => {
     try {
         const response = await axios.get(`/getRecipes`, {headers});
-        console.log(response);
-
         return response.data;
     } catch (err) {
         console.error(err);
-        throw new Error('Failed to add a new user. Please try again later.');
+        throw new Error('Failed to fetch recipes. Please try again later.');
     }
 });

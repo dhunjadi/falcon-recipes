@@ -56,4 +56,32 @@
             }
         }
     }
+
+    &__options {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+
+        @include respond(tablet) {
+            flex-direction: row;
+
+            justify-content: space-between;
+
+            &_filters {
+                flex: 0 0 50%;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            &_buttons button {
+                width: 100%;
+                background-color: $color-primary;
+                border-radius: 99rem;
+                border: none;
+                padding: 1rem;
+                transition: all 0.3s;
+                cursor: pointer;
+            }
+        }
+    }
 }

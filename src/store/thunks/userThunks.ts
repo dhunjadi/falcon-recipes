@@ -14,7 +14,7 @@ export const getAppUsers = createAsyncThunk('user/getAppUsers', async () => {
         return response.data;
     } catch (err) {
         console.error(err);
-        throw new Error('Failed to add a new user. Please try again later.');
+        throw new Error('Failed fetch users. Please try again later.');
     }
 });
 
@@ -34,6 +34,6 @@ export const userlogin = createAsyncThunk('user/userLogin', async ({email, passw
         return response;
     } catch (err) {
         console.error(err);
-        throw new Error('Failed to add a new user. Please try again later.');
+        throw new Error('Failed to login. Please try again later.');
     }
 });

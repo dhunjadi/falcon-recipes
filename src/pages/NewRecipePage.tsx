@@ -41,7 +41,7 @@ const NewRecipePage = () => {
         append: appendTag,
         remove: removeTag,
     } = useFieldArray({
-        control, // Pass the control prop
+        control,
         name: 'tags',
     });
 
@@ -59,42 +59,55 @@ const NewRecipePage = () => {
     };
 
     return (
-        <div className="p-newRecipe">
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="p-newRecipe" onSubmit={handleSubmit(onSubmit)}>
+            <div className="p-newRecipe__title">
                 <input type="text" placeholder="Recipe title" {...register('title')} />
                 {errors.title && <span>{errors.title.message}</span>}
+            </div>
 
+            <div className="p-newRecipe__instructions">
                 {instructionFields.map((field, index) => (
-                    <div key={field.id}>
+                    <div className="p-newRecipe__instructions_instruction" key={field.id}>
                         <input
                             type="text"
                             placeholder={`Instruction #${index + 1}`}
                             {...register(`instructions.${index}.instruction` as const)}
                         />
+
                         <button type="button" onClick={() => removeInstruction(index)}>
                             Remove
                         </button>
                     </div>
                 ))}
-                <button type="button" onClick={() => appendInstruction({instruction: ''})}>
-                    Add Instruction
-                </button>
 
+                <div className="p-newRecipe__instructions_addButton">
+                    <button type="button" onClick={() => appendInstruction({instruction: ''})}>
+                        Add Instruction
+                    </button>
+                </div>
+            </div>
+
+            <div className="p-newRecipe__tags">
                 {tagFields.map((field, index) => (
-                    <div key={field.id}>
+                    <div className="p-newRecipe__tags_tag" key={field.id}>
                         <input type="text" placeholder={`Tag #${index + 1}`} {...register(`tags.${index}.tag` as const)} />
                         <button type="button" onClick={() => removeTag(index)}>
                             Remove
                         </button>
                     </div>
                 ))}
-                <button type="button" onClick={() => appendTag({tag: ''})}>
-                    Add Tag
-                </button>
 
+                <div className="p-newRecipe__tags_addButton">
+                    <button type="button" onClick={() => appendTag({tag: ''})}>
+                        Add Tag
+                    </button>
+                </div>
+            </div>
+
+            <div className="p-newRecipe__submitButton">
                 <button type="submit">Submit</button>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
 

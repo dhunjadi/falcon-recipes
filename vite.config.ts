@@ -35,6 +35,11 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
+            '/updateRecipe': {
+                target: 'https://editrecipe-zazjbx7nka-uc.a.run.app/',
+                changeOrigin: true,
+                secure: false,
+            },
         },
     },
     plugins: [react()],

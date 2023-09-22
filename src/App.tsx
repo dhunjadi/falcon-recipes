@@ -15,6 +15,7 @@ const App = () => {
                 <Route element={<ProtectedRoute />}>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/:id" element={<RecipeDetailsPage />} />
+                    <Route path="/edit/:id" element={<NewRecipePage />} />
                     <Route path="/new" element={<NewRecipePage />} />
                 </Route>
             </Routes>

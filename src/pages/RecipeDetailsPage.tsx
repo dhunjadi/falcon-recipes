@@ -51,7 +51,7 @@ const RecipeDetailsPage = () => {
 
                 {userIsOwner && (
                     <div className="p-recipeDetails__info_buttons">
-                        <Button>Edit</Button>
+                        <Button onClick={() => navigate(`/edit/${selectedRecipe.id}`)}>Edit</Button>
                         <Button onClick={handleDelete}>Delete</Button>
                     </div>
                 )}

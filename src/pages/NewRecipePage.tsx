@@ -4,14 +4,22 @@ import {NewRecipe, NewRecipeForm} from '../types';
 import {newRecipeValidationSchema} from '../validations';
 import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {getCurrentDate} from '../utilities';
-import {addRecipe} from '../store/thunks/recipeThunks';
-import {useNavigate} from 'react-router-dom';
+import {addRecipe, updateRecipe} from '../store/thunks/recipeThunks';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 import Button from '../components/Button';
 
 const NewRecipePage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
+    const {recipeList} = useAppSelector((state: RootState) => state.recipe);
+    const {id} = useParams();
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const {pathname} = useLocation();
+
+    const isEditing = pathname.includes('edit');
+    const recipeBeingEdited = recipeList.find((recipe) => recipe.id === id);
+
     const {
         register,
         handleSubmit,
@@ -20,11 +28,11 @@ const NewRecipePage = () => {
     } = useForm<NewRecipeForm>({
         resolver: zodResolver(newRecipeValidationSchema),
         defaultValues: {
-            title: '',
-            dateCreated: getCurrentDate(),
-            authorId: loggedInUser.id,
-            instructions: [{instruction: ''}],
-            tags: [{tag: ''}],
+            title: recipeBeingEdited?.title || '',
+            dateCreated: recipeBeingEdited?.dateCreated || getCurrentDate(),
+            authorId: recipeBeingEdited?.authorId || loggedInUser.id,
+            instructions: (recipeBeingEdited?.instructions || ['']).map((instruction) => ({instruction})) || [{instruction: ''}],
+            tags: (recipeBeingEdited?.tags || ['']).map((tag) => ({tag})) || [{tag: ''}],
         },
     });
 
@@ -55,8 +63,13 @@ const NewRecipePage = () => {
             tags: data.tags.map((item) => item.tag),
         };
 
-        dispatch(addRecipe(newRecipeData));
-        navigate(-1);
+        if (recipeBeingEdited && isEditing) {
+            dispatch(updateRecipe({recipeId: recipeBeingEdited.id, recipe: newRecipeData}));
+            navigate(-1);
+        } else {
+            dispatch(addRecipe(newRecipeData));
+            navigate(-1);
+        }
     };
 
     return (
@@ -106,7 +119,7 @@ const NewRecipePage = () => {
             </div>
 
             <div className="p-newRecipe__submitButton">
-                <Button type="submit">Submit</Button>
+                <Button type="submit">{isEditing ? 'Update' : 'Submit'}</Button>
             </div>
         </form>
     );

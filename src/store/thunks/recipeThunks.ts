@@ -37,3 +37,15 @@ export const deleteRecipe = createAsyncThunk('recipes/deleteRecipe', async (reci
         throw new Error('Failed to delete recipe. Please try again later.');
     }
 });
+
+export const updateRecipe = createAsyncThunk('recipes/updateRecipe', async ({recipeId, recipe}: {recipeId: string; recipe: NewRecipe}) => {
+    try {
+        const apiUrl = `/updateRecipe`;
+        const response = await axios.patch(apiUrl, {recipeId, recipe}, {headers});
+
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to update recipe. Please try again later.');
+    }
+});

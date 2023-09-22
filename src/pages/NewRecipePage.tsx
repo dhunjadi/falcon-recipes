@@ -6,6 +6,7 @@ import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {getCurrentDate} from '../utilities';
 import {addRecipe} from '../store/thunks/recipeThunks';
 import {useNavigate} from 'react-router-dom';
+import Button from '../components/Button';
 
 const NewRecipePage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
@@ -74,16 +75,16 @@ const NewRecipePage = () => {
                             {...register(`instructions.${index}.instruction` as const)}
                         />
 
-                        <button type="button" onClick={() => removeInstruction(index)}>
+                        <Button type="button" onClick={() => removeInstruction(index)}>
                             Remove
-                        </button>
+                        </Button>
                     </div>
                 ))}
 
                 <div className="p-newRecipe__instructions_addButton">
-                    <button type="button" onClick={() => appendInstruction({instruction: ''})}>
+                    <Button type="button" onClick={() => appendInstruction({instruction: ''})}>
                         Add Instruction
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -91,21 +92,21 @@ const NewRecipePage = () => {
                 {tagFields.map((field, index) => (
                     <div className="p-newRecipe__tags_tag" key={field.id}>
                         <input type="text" placeholder={`Tag #${index + 1}`} {...register(`tags.${index}.tag` as const)} />
-                        <button type="button" onClick={() => removeTag(index)}>
+                        <Button type="button" onClick={() => removeTag(index)}>
                             Remove
-                        </button>
+                        </Button>
                     </div>
                 ))}
 
                 <div className="p-newRecipe__tags_addButton">
-                    <button type="button" onClick={() => appendTag({tag: ''})}>
+                    <Button type="button" onClick={() => appendTag({tag: ''})}>
                         Add Tag
-                    </button>
+                    </Button>
                 </div>
             </div>
 
             <div className="p-newRecipe__submitButton">
-                <button type="submit">Submit</button>
+                <Button type="submit">Submit</Button>
             </div>
         </form>
     );

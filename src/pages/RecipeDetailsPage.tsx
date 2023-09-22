@@ -3,6 +3,7 @@ import {useAppSelector, RootState, useAppDispatch} from '../store/store';
 import PlateIcon from '../assets/PlateIcon.svg';
 import {Recipe} from '../types';
 import {deleteRecipe} from '../store/thunks/recipeThunks';
+import Button from '../components/Button';
 
 const RecipeDetailsPage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
@@ -50,8 +51,8 @@ const RecipeDetailsPage = () => {
 
                 {userIsOwner && (
                     <div className="p-recipeDetails__info_buttons">
-                        <button>Edit</button>
-                        <button onClick={handleDelete}>Delete</button>
+                        <Button>Edit</Button>
+                        <Button onClick={handleDelete}>Delete</Button>
                     </div>
                 )}
             </div>

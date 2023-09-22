@@ -3,6 +3,7 @@ import RecipeCard from '../components/RecipeCard';
 import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {getRecipes} from '../store/thunks/recipeThunks';
 import {useNavigate} from 'react-router-dom';
+import Button from '../components/Button';
 
 const HomePage = () => {
     const {recipeList} = useAppSelector((state: RootState) => state.recipe);
@@ -40,7 +41,7 @@ const HomePage = () => {
                 </div>
 
                 <div className="p-home__options_buttons">
-                    <button onClick={() => navigate('/new')}>Add a new Recipe</button>
+                    <Button onClick={() => navigate('/new')}>Add a new Recipe</Button>
                 </div>
             </div>
 

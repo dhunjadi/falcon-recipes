@@ -30,21 +30,6 @@
             }
         }
 
-        &_button {
-            width: 100%;
-            background-color: $color-primary;
-            border-radius: 99rem;
-            border: none;
-            padding: 1rem;
-            transition: all 0.3s;
-            cursor: pointer;
-            margin: 1rem;
-
-            &.isDisabled {
-                background-color: $color-primary-light;
-            }
-        }
-
         a {
             font-size: 1.2rem;
             color: $color-primary-dark;

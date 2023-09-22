@@ -6,6 +6,7 @@ import {loginPageValidationSchema} from '../validations';
 import {useAppDispatch} from '../store/store';
 import {useEffect, useState} from 'react';
 import {userlogin} from '../store/thunks/userThunks';
+import Button from '../components/Button';
 
 const LoginPage: React.FC = () => {
     const {
@@ -43,9 +44,9 @@ const LoginPage: React.FC = () => {
 
                 {showLoginError && <span>Wrong username or password!</span>}
 
-                <button className={`p-login__form_button ${isDisabled && 'isDisabled'}`} type="submit" disabled={isDisabled}>
+                <Button type="submit" disabled={isDisabled}>
                     Login
-                </button>
+                </Button>
 
                 <Link to={'/register'}>Don't have an account?</Link>
             </form>

@@ -3,52 +3,21 @@
     flex-direction: column;
     padding: 2rem;
 
-    & > div {
+    &__title {
         margin-bottom: 4rem;
     }
 
-    &__instructions {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 4rem;
-
-        &_instruction {
-            display: flex;
-            flex-direction: column;
-
-            @include respond(tablet) {
-                flex-direction: row;
-                gap: 2rem;
-
-                button {
-                    flex: 1;
-                }
-            }
-        }
-
-        button {
-            margin-bottom: 2rem;
-        }
-
-        &_addButton {
-            width: 100%;
-            align-self: center;
-
-            @include respond(tablet) {
-                width: 50%;
-            }
-
-            @include respond(desktop) {
-                width: 30%;
-            }
-        }
-    }
-
+    &__instructions,
     &__tags {
         display: flex;
         flex-direction: column;
         margin-bottom: 4rem;
 
+        & > :first-child {
+            margin-bottom: 2rem;
+        }
+
+        &_instruction,
         &_tag {
             display: flex;
             flex-direction: column;
@@ -57,36 +26,10 @@
                 flex-direction: row;
                 gap: 2rem;
             }
-        }
 
-        button {
-            margin-bottom: 2rem;
-        }
-
-        &_addButton {
-            width: 100%;
-            align-self: center;
-
-            @include respond(tablet) {
-                width: 50%;
+            button {
+                margin-top: 1rem;
             }
-
-            @include respond(desktop) {
-                width: 30%;
-            }
-        }
-    }
-
-    &__submitButton {
-        width: 100%;
-        align-self: center;
-
-        @include respond(tablet) {
-            width: 30%;
-        }
-
-        @include respond(desktop) {
-            width: 15%;
         }
     }
 
@@ -95,7 +38,6 @@
         border: 0.2rem solid $color-primary-light;
         border-radius: 99rem;
         background-color: $color-primary-light;
-        margin-bottom: 2rem;
         color: $color-primary-dark;
         padding: 1.5rem 3rem;
 
@@ -111,15 +53,5 @@
         @include respond(tablet) {
             flex: 0 0 70%;
         }
-    }
-
-    button {
-        width: 100%;
-        background-color: $color-primary;
-        border-radius: 99rem;
-        border: none;
-        padding: 1rem;
-        transition: all 0.3s;
-        cursor: pointer;
     }
 }

@@ -1,0 +1,26 @@
+.c-button {
+    width: 100%;
+    background-color: $color-primary-dark;
+    color: $color-primary-light;
+    border-radius: 99rem;
+    border: none;
+    padding: 1rem;
+    transition: all 0.3s;
+    cursor: pointer;
+
+    &.is-disabled {
+        background-color: $color-primary;
+        color: $color-primary-dark;
+        pointer-events: none;
+    }
+
+    &:hover {
+        transform: translateY(-0.3rem);
+        box-shadow: 0 0.2rem 2rem $color-primary-dark;
+    }
+
+    &:active {
+        transform: translateY(0.1rem);
+        box-shadow: 0 0.1rem 1rem $color-primary-dark;
+    }
+}

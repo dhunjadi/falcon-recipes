@@ -54,14 +54,6 @@
             gap: 1rem;
             margin-top: 2rem;
 
-            & button {
-                width: 100%;
-                background-color: $color-primary;
-                border-radius: 99rem;
-                border: none;
-                padding: 1rem;
-            }
-
             @include respond(tablet) {
                 flex-direction: row;
             }

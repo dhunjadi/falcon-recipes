@@ -5,6 +5,7 @@ import {RegisterForm} from '../types';
 import {registerValidationSchema} from '../validations';
 import {useAppDispatch} from '../store/store';
 import {registerUser} from '../store/thunks/userThunks';
+import Button from '../components/Button';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
@@ -42,9 +43,9 @@ const RegisterPage = () => {
                 <input type="password" placeholder="Confirm Password" id="confirmPassword" {...register('confirmPassword')} />
                 {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
 
-                <button className="p-register__form_button" type="submit" disabled={isDisabled}>
+                <Button type="submit" disabled={isDisabled}>
                     Register
-                </button>
+                </Button>
             </form>
         </div>
     );

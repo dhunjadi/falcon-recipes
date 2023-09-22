@@ -21,7 +21,7 @@ const HomePage = () => {
 
     useEffect(() => {
         dispatch(getRecipes());
-    }, [dispatch]);
+    }, [dispatch, recipeList.length]);
     const usersRecipes = recipeList.filter((recipe) => recipe.authorId === loggedInUser.id);
 
     const lastRecipeIndex = currentPage * recipesPerPage;

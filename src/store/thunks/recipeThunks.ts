@@ -18,6 +18,16 @@ export const getRecipes = createAsyncThunk('recipes/getRecipes', async () => {
     }
 });
 
+export const getRecipe = createAsyncThunk('recipes/getRecipe', async (recipeId: string) => {
+    try {
+        const response = await axios.get(`/getRecipe?recipeId=${recipeId}`, {headers});
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to fetch the recipe. Please try again later.');
+    }
+});
+
 export const addRecipe = createAsyncThunk('recipes/addRecipes', async (recipeData: NewRecipe) => {
     try {
         const response = await axios.post(`/addRecipe`, {recipe: recipeData}, {headers});

@@ -1,28 +1,31 @@
 import {useNavigate, useParams} from 'react-router-dom';
 import {useAppSelector, RootState, useAppDispatch} from '../store/store';
 import PlateIcon from '../assets/PlateIcon.svg';
-import {Recipe} from '../types';
-import {deleteRecipe} from '../store/thunks/recipeThunks';
+import {deleteRecipe, getRecipe} from '../store/thunks/recipeThunks';
 import Button from '../components/Button';
+import {useEffect} from 'react';
+import {clearSelectedRecipe} from '../store/features/recipeSlice';
 
 const RecipeDetailsPage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
-    const {recipeList} = useAppSelector((state: RootState) => state.recipe);
+    const {selectedRecipe} = useAppSelector((state: RootState) => state.recipe);
     const {id} = useParams();
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
-    const selectedRecipe: Recipe | undefined = recipeList.find((recipe) => recipe.id === id);
-    const userIsOwner = selectedRecipe?.authorId === loggedInUser.id;
+    useEffect(() => {
+        id && dispatch(getRecipe(id));
+    }, [dispatch, id, selectedRecipe]);
 
-    if (!selectedRecipe) return <></>;
+    const userIsOwner = selectedRecipe?.authorId === loggedInUser.id;
 
     const handleDelete = () => {
         dispatch(deleteRecipe(selectedRecipe.id));
         navigate(-1);
     };
 
+    if (!selectedRecipe) return <></>;
     return (
         <div className="p-recipeDetails">
             <div className="p-recipeDetails__meal">
@@ -49,12 +52,22 @@ const RecipeDetailsPage = () => {
                     </ul>
                 </div>
 
-                {userIsOwner && (
-                    <div className="p-recipeDetails__info_buttons">
-                        <Button onClick={() => navigate(`/edit/${selectedRecipe.id}`)}>Edit</Button>
-                        <Button onClick={handleDelete}>Delete</Button>
-                    </div>
-                )}
+                <div className="p-recipeDetails__info_buttons">
+                    {userIsOwner && (
+                        <>
+                            <Button onClick={() => navigate(`/edit/${selectedRecipe.id}`)}>Edit</Button>
+                            <Button onClick={handleDelete}>Delete</Button>
+                        </>
+                    )}
+                    <Button
+                        onClick={() => {
+                            navigate(-1);
+                            dispatch(clearSelectedRecipe());
+                        }}
+                    >
+                        Go back
+                    </Button>
+                </div>
             </div>
         </div>
     );

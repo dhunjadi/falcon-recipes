@@ -5,20 +5,18 @@ import {newRecipeValidationSchema} from '../validations';
 import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {getCurrentDate} from '../utilities';
 import {addRecipe, updateRecipe} from '../store/thunks/recipeThunks';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import Button from '../components/Button';
 
 const NewRecipePage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
-    const {recipeList} = useAppSelector((state: RootState) => state.recipe);
-    const {id} = useParams();
+    const {selectedRecipe} = useAppSelector((state: RootState) => state.recipe);
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const {pathname} = useLocation();
 
     const isEditing = pathname.includes('edit');
-    const recipeBeingEdited = recipeList.find((recipe) => recipe.id === id);
 
     const {
         register,
@@ -28,11 +26,11 @@ const NewRecipePage = () => {
     } = useForm<NewRecipeForm>({
         resolver: zodResolver(newRecipeValidationSchema),
         defaultValues: {
-            title: recipeBeingEdited?.title || '',
-            dateCreated: recipeBeingEdited?.dateCreated || getCurrentDate(),
-            authorId: recipeBeingEdited?.authorId || loggedInUser.id,
-            instructions: (recipeBeingEdited?.instructions || ['']).map((instruction) => ({instruction})) || [{instruction: ''}],
-            tags: (recipeBeingEdited?.tags || ['']).map((tag) => ({tag})) || [{tag: ''}],
+            title: selectedRecipe.title || '',
+            dateCreated: selectedRecipe.dateCreated || getCurrentDate(),
+            authorId: selectedRecipe.authorId || loggedInUser.id,
+            instructions: (selectedRecipe.instructions || ['']).map((instruction) => ({instruction})) || [{instruction: ''}],
+            tags: (selectedRecipe.tags || ['']).map((tag) => ({tag})) || [{tag: ''}],
         },
     });
 
@@ -63,8 +61,8 @@ const NewRecipePage = () => {
             tags: data.tags.map((item) => item.tag),
         };
 
-        if (recipeBeingEdited && isEditing) {
-            dispatch(updateRecipe({recipeId: recipeBeingEdited.id, recipe: newRecipeData}));
+        if (selectedRecipe && isEditing) {
+            dispatch(updateRecipe({recipeId: selectedRecipe.id, recipe: newRecipeData}));
             navigate(-1);
         } else {
             dispatch(addRecipe(newRecipeData));
@@ -120,6 +118,9 @@ const NewRecipePage = () => {
 
             <div className="p-newRecipe__submitButton">
                 <Button type="submit">{isEditing ? 'Update' : 'Submit'}</Button>
+                <Button onClick={() => navigate(-1)} type="button">
+                    Go back
+                </Button>
             </div>
         </form>
     );

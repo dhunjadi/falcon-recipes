@@ -1,0 +1,48 @@
+.tag-filter {
+    position: relative;
+
+    &__toggle {
+        background-color: $color-primary-dark;
+        border-radius: 99rem;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    &__dropdown {
+        position: absolute;
+        max-height: 50vh;
+        overflow-y: auto;
+        top: 100%;
+        left: 0;
+        display: none;
+        background-color: $color-primary-dark;
+        color: $color-primary-light;
+        border: 1px solid #ccc;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+
+        &.show {
+            display: block;
+        }
+
+        label {
+            display: block;
+            padding: 1rem;
+
+            &:hover {
+                background-color: $color-primary-light;
+                color: $color-primary-dark;
+            }
+
+            input[type='checkbox'] {
+                margin-right: 1rem;
+            }
+        }
+    }
+}

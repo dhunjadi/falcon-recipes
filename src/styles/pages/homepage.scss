@@ -41,10 +41,23 @@
     &__filters {
         width: 100%;
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 2rem;
         font-size: 1.6rem;
+
+        @include respond(tablet) {
+            flex-direction: row-reverse;
+        }
+
+        &_userRecipes {
+            margin-bottom: 1rem;
+
+            label {
+                margin-right: 1rem;
+            }
+        }
     }
 
     &__buttons {

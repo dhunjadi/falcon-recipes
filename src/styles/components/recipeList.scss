@@ -1,0 +1,18 @@
+.c-recipeList {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    gap: 1rem;
+
+    & > * {
+        aspect-ratio: 1/1;
+    }
+
+    @include respond(tablet) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond(desktop) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

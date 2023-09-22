@@ -5,25 +5,6 @@
     align-items: center;
     padding: 2rem 5rem;
 
-    &__recipes {
-        display: grid;
-        grid-template-columns: 1fr;
-        justify-content: center;
-        gap: 1rem;
-
-        & > * {
-            aspect-ratio: 1/1;
-        }
-
-        @include respond(tablet) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        @include respond(desktop) {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
-
     &__search {
         width: 100%;
         display: flex;
@@ -39,7 +20,7 @@
             padding: 1.5rem 3rem;
 
             &::placeholder {
-                color: $color-primary-light;
+                color: $color-primary;
             }
 
             &:focus {

@@ -1,0 +1,15 @@
+.c-pagination {
+    width: fit-content;
+    margin: 2rem;
+    font-size: 1.6rem;
+
+    &__list {
+        display: flex;
+        gap: 2rem;
+
+        &_item {
+            list-style-type: none;
+            text-decoration: none;
+        }
+    }
+}

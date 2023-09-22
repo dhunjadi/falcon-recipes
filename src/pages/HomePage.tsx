@@ -1,10 +1,11 @@
 import {ChangeEvent, useEffect, useState} from 'react';
-import RecipeCard from '../components/RecipeCard';
 import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {getRecipes} from '../store/thunks/recipeThunks';
 import {useNavigate} from 'react-router-dom';
 import Button from '../components/Button';
 import {userLogout} from '../store/features/userSlice';
+import Pagination from '../components/Pagination';
+import RecipeList from '../components/RecipeList';
 
 const HomePage = () => {
     const {recipeList} = useAppSelector((state: RootState) => state.recipe);
@@ -13,20 +14,35 @@ const HomePage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
+    const [searchText, setSearchText] = useState<string>('');
+    const [showOnlyUsersRecipes, setShowOnlyUsersRecipes] = useState<boolean>(false);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const recipesPerPage = 6;
+
     useEffect(() => {
         dispatch(getRecipes());
     }, [dispatch]);
+    const usersRecipes = recipeList.filter((recipe) => recipe.authorId === loggedInUser.id);
 
-    const [searchText, setSearchText] = useState<string>('');
-    const [showOnlyUsersRecipes, setShowOnlyUsersRecipes] = useState<boolean>(false);
+    const lastRecipeIndex = currentPage * recipesPerPage;
+    const firstRecipeIndex = lastRecipeIndex - recipesPerPage;
+    const currentRecipes = showOnlyUsersRecipes
+        ? usersRecipes.slice(firstRecipeIndex, lastRecipeIndex)
+        : recipeList.slice(firstRecipeIndex, lastRecipeIndex);
 
-    const filteredList = recipeList.filter((recipe) => recipe.title.toLowerCase().includes(searchText.toLowerCase()));
-    const usersRecipes = filteredList.filter((recipe) => recipe.authorId === loggedInUser.id);
+    const filteredList = currentRecipes.filter((recipe) => recipe.title.toLowerCase().includes(searchText.toLowerCase()));
+
+    const handlePageSelect = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
         <div className="p-home">
             <div className="p-home__search">
-                <input type="search" value={searchText} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value)} />
+                <input
+                    type="search"
+                    value={searchText}
+                    placeholder="Search by title"
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value)}
+                />
             </div>
 
             <div className="p-home__buttons">
@@ -48,15 +64,13 @@ const HomePage = () => {
                 </div>
             </div>
 
-            <div className="p-home__recipes">
-                {showOnlyUsersRecipes
-                    ? usersRecipes.map((recipe) => {
-                          return <RecipeCard key={recipe.id} {...recipe} />;
-                      })
-                    : filteredList.map((recipe) => {
-                          return <RecipeCard key={recipe.id} {...recipe} />;
-                      })}
-            </div>
+            <RecipeList recipeList={showOnlyUsersRecipes ? usersRecipes : filteredList} />
+
+            <Pagination
+                showPerPage={recipesPerPage}
+                total={showOnlyUsersRecipes ? usersRecipes.length : recipeList.length}
+                onPageSelect={handlePageSelect}
+            />
         </div>
     );
 };

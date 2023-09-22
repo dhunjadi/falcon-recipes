@@ -27,3 +27,13 @@ export const addRecipe = createAsyncThunk('recipes/addRecipes', async (recipeDat
         throw new Error('Failed to add a recipe recipes. Please try again later.');
     }
 });
+
+export const deleteRecipe = createAsyncThunk('recipes/deleteRecipe', async (recipeId: string) => {
+    try {
+        const response = await axios.delete(`/deleteRecipe?recipeId=${recipeId}`, {headers});
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed to delete recipe. Please try again later.');
+    }
+});

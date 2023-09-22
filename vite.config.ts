@@ -30,6 +30,11 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
+            '/deleteRecipe': {
+                target: 'https://deleterecipe-zazjbx7nka-uc.a.run.app/',
+                changeOrigin: true,
+                secure: false,
+            },
         },
     },
     plugins: [react()],

@@ -1,16 +1,26 @@
-import {useParams} from 'react-router-dom';
-import {useAppSelector, RootState} from '../store/store';
+import {useNavigate, useParams} from 'react-router-dom';
+import {useAppSelector, RootState, useAppDispatch} from '../store/store';
 import PlateIcon from '../assets/PlateIcon.svg';
 import {Recipe} from '../types';
+import {deleteRecipe} from '../store/thunks/recipeThunks';
 
 const RecipeDetailsPage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
     const {recipeList} = useAppSelector((state: RootState) => state.recipe);
     const {id} = useParams();
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const selectedRecipe: Recipe | undefined = recipeList.find((recipe) => recipe.id === id);
     const userIsOwner = selectedRecipe?.authorId === loggedInUser.id;
 
     if (!selectedRecipe) return <></>;
+
+    const handleDelete = () => {
+        dispatch(deleteRecipe(selectedRecipe.id));
+        navigate(-1);
+    };
 
     return (
         <div className="p-recipeDetails">
@@ -41,7 +51,7 @@ const RecipeDetailsPage = () => {
                 {userIsOwner && (
                     <div className="p-recipeDetails__info_buttons">
                         <button>Edit</button>
-                        <button>Delete</button>
+                        <button onClick={handleDelete}>Delete</button>
                     </div>
                 )}
             </div>

@@ -4,6 +4,7 @@ import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {getRecipes} from '../store/thunks/recipeThunks';
 import {useNavigate} from 'react-router-dom';
 import Button from '../components/Button';
+import {userLogout} from '../store/features/userSlice';
 
 const HomePage = () => {
     const {recipeList} = useAppSelector((state: RootState) => state.recipe);
@@ -28,9 +29,15 @@ const HomePage = () => {
                 <input type="search" value={searchText} onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchText(e.target.value)} />
             </div>
 
-            <div className="p-home__options">
-                <div className="p-home__options_filters">
-                    Filter by tags:
+            <div className="p-home__buttons">
+                <Button onClick={() => dispatch(userLogout())}>Logout</Button>
+                <Button onClick={() => navigate('/new')}>Add a new Recipe</Button>
+            </div>
+
+            <div className="p-home__filters">
+                <div className="p-home__filters_tags">Filter by tags:</div>
+
+                <div className="p-home__filters_userRecipes">
                     <label htmlFor="userRecipes">Display only my recipes</label>
                     <input
                         type="checkbox"
@@ -38,10 +45,6 @@ const HomePage = () => {
                         checked={showOnlyUsersRecipes}
                         onChange={() => setShowOnlyUsersRecipes(!showOnlyUsersRecipes)}
                     />
-                </div>
-
-                <div className="p-home__options_buttons">
-                    <Button onClick={() => navigate('/new')}>Add a new Recipe</Button>
                 </div>
             </div>
 

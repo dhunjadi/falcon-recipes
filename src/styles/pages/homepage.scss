@@ -57,21 +57,24 @@
         }
     }
 
-    &__options {
+    &__filters {
         width: 100%;
         display: flex;
-        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        font-size: 1.6rem;
+    }
+
+    &__buttons {
+        width: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 1rem;
+        margin-bottom: 2rem;
 
         @include respond(tablet) {
             flex-direction: row;
-
-            justify-content: space-between;
-
-            &_filters {
-                flex: 0 0 50%;
-                display: flex;
-                justify-content: space-between;
-            }
         }
     }
 }

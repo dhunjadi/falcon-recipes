@@ -7,6 +7,8 @@ import {useEffect, useState} from 'react';
 import {clearSelectedRecipe} from '../store/features/recipeSlice';
 import {BeatLoader} from 'react-spinners';
 import Modal from '../components/Modal';
+import {RecipeDetailsUser} from '../types';
+import {getAppUser} from '../store/thunks/userThunks';
 
 const RecipeDetailsPage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
@@ -14,6 +16,7 @@ const RecipeDetailsPage = () => {
     const {id} = useParams();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [fetchedUser, setFetchedUser] = useState<RecipeDetailsUser>();
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -21,6 +24,10 @@ const RecipeDetailsPage = () => {
     useEffect(() => {
         id && dispatch(getRecipe(id));
     }, [dispatch, id]);
+
+    useEffect(() => {
+        dispatch(getAppUser(selectedRecipe.authorId)).then((res) => setFetchedUser(res.payload.appUser));
+    }, [dispatch, selectedRecipe.authorId]);
 
     const userIsOwner = selectedRecipe?.authorId === loggedInUser.id;
 
@@ -38,16 +45,27 @@ const RecipeDetailsPage = () => {
                     ) : (
                         <>
                             <h1>{selectedRecipe.title}</h1>
+                            <span>Recipe ID: {selectedRecipe.id}</span>
                             <img className="p-recipeDetails__meal_img" src={PlateIcon} alt="plate and cutlery" />
                         </>
                     )}
                 </div>
 
                 <div className="p-recipeDetails__info">
-                    {isLoading ? (
+                    {!fetchedUser ? (
                         <BeatLoader color="#435334" size={10} />
                     ) : (
                         <>
+                            <div className="p-recipeDetails__info_author">
+                                <strong>Author: </strong>
+                                {fetchedUser?.name}
+                            </div>
+
+                            <div className="p-recipeDetails__info_author">
+                                <strong>Author ID: </strong>
+                                {fetchedUser?.id}
+                            </div>
+
                             <div className="p-recipeDetails__info_instructions">
                                 <strong>Instructions:</strong>
                                 <ol>
@@ -55,6 +73,11 @@ const RecipeDetailsPage = () => {
                                         <li key={step}>{step}</li>
                                     ))}
                                 </ol>
+                            </div>
+
+                            <div className="p-recipeDetails__info_date">
+                                <strong>Date created: </strong>
+                                {selectedRecipe.dateCreated}
                             </div>
 
                             <div className="p-recipeDetails__info_tags">

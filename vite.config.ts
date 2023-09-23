@@ -10,6 +10,11 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: false,
             },
+            '/getAppUser': {
+                target: 'https://getappuser-zazjbx7nka-uc.a.run.app/',
+                changeOrigin: true,
+                secure: false,
+            },
             '/registerUser': {
                 target: 'https://addappuser-zazjbx7nka-uc.a.run.app',
                 changeOrigin: true,

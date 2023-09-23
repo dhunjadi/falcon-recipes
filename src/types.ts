@@ -5,6 +5,13 @@ export type User = {
     password?: string;
 };
 
+export type RecipeDetailsUser = {
+    id: string;
+    name: string;
+    email: string;
+    recipeIds: string[];
+};
+
 export type Recipe = {
     id: string;
     title: string;

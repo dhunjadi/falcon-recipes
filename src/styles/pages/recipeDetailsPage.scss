@@ -34,12 +34,12 @@
         flex: 0 0 50%;
         font-size: 2rem;
 
-        &_instructions {
+        & > *:not(:last-child) {
             margin-bottom: 2rem;
+        }
 
-            & ol {
-                list-style-position: inside;
-            }
+        &_instructions ol {
+            list-style-position: inside;
         }
 
         &_tags ul {

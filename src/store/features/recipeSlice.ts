@@ -1,6 +1,5 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import {Recipe} from '../../types';
-import {recipeList} from '../../data/recipeList';
 import {addRecipe, deleteRecipe, getRecipe, getRecipes, updateRecipe} from '../thunks/recipeThunks';
 
 export type RecipeSliceState = {
@@ -10,7 +9,7 @@ export type RecipeSliceState = {
 };
 
 const initialState: RecipeSliceState = {
-    recipeList: recipeList,
+    recipeList: [],
     selectedRecipe: {id: '', title: '', dateCreated: '', authorId: '', instructions: [], tags: []},
     isLoading: false,
 };

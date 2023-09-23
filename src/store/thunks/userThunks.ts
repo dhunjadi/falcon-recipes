@@ -18,6 +18,16 @@ export const getAppUsers = createAsyncThunk('user/getAppUsers', async () => {
     }
 });
 
+export const getAppUser = createAsyncThunk('user/getAppUser', async (appUserId: string) => {
+    try {
+        const response = await axios.get(`/getAppUser?appUserId=${appUserId}`, {headers});
+        return response.data;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Failed fetch the user. Please try again later.');
+    }
+});
+
 export const registerUser = createAsyncThunk('user/registerUser', async ({name, email, password}: User) => {
     try {
         const response = await axios.post(`/registerUser`, {name, email, password}, {headers});

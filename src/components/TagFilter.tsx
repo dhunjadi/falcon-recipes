@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 
 interface TagFilterProps {
     tags: string[];
@@ -6,12 +6,11 @@ interface TagFilterProps {
     onTagChange: (selectedTags: string[]) => void;
 }
 
-const TagFilter: React.FC<TagFilterProps> = ({tags, selectedTags, onTagChange}) => {
+const TagFilter = ({tags, selectedTags, onTagChange}: TagFilterProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleTagChange = (tag: string) => {
         const updatedTags = selectedTags.includes(tag) ? selectedTags.filter((t) => t !== tag) : [...selectedTags, tag];
-
         onTagChange(updatedTags);
     };
 

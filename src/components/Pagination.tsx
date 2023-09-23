@@ -4,20 +4,17 @@ interface PaginationProps {
     showPerPage: number;
     total: number;
     onPageSelect: (pageNumber: number) => void;
+    activePage: number;
 }
 
-const Pagination = ({showPerPage, total, onPageSelect}: PaginationProps) => {
-    const pageNumbers = [];
-
-    for (let i = 1; i <= Math.ceil(total / showPerPage); i++) {
-        pageNumbers.push(i);
-    }
+const Pagination = ({showPerPage, total, onPageSelect, activePage}: PaginationProps) => {
+    const pageNumbers = Array.from({length: Math.ceil(total / showPerPage)}, (_, i) => i + 1);
 
     return (
         <nav className="c-pagination">
             <ul className="c-pagination__list">
                 {pageNumbers.map((number) => (
-                    <li key={number} className="c-pagination__list_item">
+                    <li key={number} className={`c-pagination__list_item ${number === activePage && 'active'}`}>
                         <Button
                             onClick={(e) => {
                                 e.preventDefault();

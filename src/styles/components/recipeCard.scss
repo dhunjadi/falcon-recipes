@@ -10,6 +10,7 @@
     padding: 0 2rem;
     transition: all 0.5s;
     background: $color-primary;
+    animation: fadeIn 1s;
 
     &:hover {
         background-color: $color-primary-light;

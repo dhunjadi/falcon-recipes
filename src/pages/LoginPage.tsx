@@ -3,12 +3,14 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import {Link, useNavigate} from 'react-router-dom';
 import {LoginForm} from '../types';
 import {loginPageValidationSchema} from '../validations';
-import {useAppDispatch} from '../store/store';
+import {RootState, useAppDispatch, useAppSelector} from '../store/store';
 import {useEffect, useState} from 'react';
 import {userlogin} from '../store/thunks/userThunks';
 import Button from '../components/Button';
+import {BeatLoader} from 'react-spinners';
 
 const LoginPage: React.FC = () => {
+    const {isLoading} = useAppSelector((state: RootState) => state.user);
     const {
         register,
         handleSubmit,
@@ -24,9 +26,13 @@ const LoginPage: React.FC = () => {
     const isDisabled = !watchFields.email || !watchFields.password;
 
     const onSubmit = async ({email, password}: LoginForm) => {
-        dispatch(userlogin({email, password}));
+        await dispatch(userlogin({email, password})).then((res) => {
+            if (res.meta.requestStatus === 'fulfilled') {
+                navigate('/');
+            }
 
-        navigate('/');
+            setShowLoginError(true);
+        });
     };
 
     useEffect(() => {
@@ -45,7 +51,7 @@ const LoginPage: React.FC = () => {
                 {showLoginError && <span>Wrong username or password!</span>}
 
                 <Button type="submit" disabled={isDisabled}>
-                    Login
+                    {isLoading ? <BeatLoader color="#cedebd" size={10} /> : 'Login'}
                 </Button>
 
                 <Link to={'/register'}>Don't have an account?</Link>

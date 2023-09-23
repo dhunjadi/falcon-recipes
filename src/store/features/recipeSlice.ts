@@ -37,6 +37,7 @@ export const recipeSlice = createSlice({
         builder.addCase(getRecipes.rejected, (state: RecipeSliceState) => {
             state.isLoading = false;
         });
+
         builder.addCase(getRecipe.pending, (state: RecipeSliceState) => {
             state.isLoading = true;
         });
@@ -47,6 +48,7 @@ export const recipeSlice = createSlice({
         builder.addCase(getRecipe.rejected, (state: RecipeSliceState) => {
             state.isLoading = false;
         });
+
         builder.addCase(addRecipe.pending, (state: RecipeSliceState) => {
             state.isLoading = true;
         });
@@ -57,6 +59,7 @@ export const recipeSlice = createSlice({
         builder.addCase(addRecipe.rejected, (state: RecipeSliceState) => {
             state.isLoading = false;
         });
+
         builder.addCase(deleteRecipe.pending, (state: RecipeSliceState) => {
             state.isLoading = true;
         });
@@ -67,6 +70,7 @@ export const recipeSlice = createSlice({
         builder.addCase(deleteRecipe.rejected, (state: RecipeSliceState) => {
             state.isLoading = false;
         });
+
         builder.addCase(updateRecipe.pending, (state: RecipeSliceState) => {
             state.isLoading = true;
         });

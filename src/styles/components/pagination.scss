@@ -10,6 +10,11 @@
         &_item {
             list-style-type: none;
             text-decoration: none;
+
+            &.active button {
+                background-color: $color-primary;
+                color: $color-primary-dark;
+            }
         }
     }
 }

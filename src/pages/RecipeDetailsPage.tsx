@@ -5,10 +5,11 @@ import {deleteRecipe, getRecipe} from '../store/thunks/recipeThunks';
 import Button from '../components/Button';
 import {useEffect} from 'react';
 import {clearSelectedRecipe} from '../store/features/recipeSlice';
+import {BeatLoader} from 'react-spinners';
 
 const RecipeDetailsPage = () => {
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
-    const {selectedRecipe} = useAppSelector((state: RootState) => state.recipe);
+    const {selectedRecipe, isLoading} = useAppSelector((state: RootState) => state.recipe);
     const {id} = useParams();
 
     const dispatch = useAppDispatch();
@@ -16,7 +17,7 @@ const RecipeDetailsPage = () => {
 
     useEffect(() => {
         id && dispatch(getRecipe(id));
-    }, [dispatch, id, selectedRecipe]);
+    }, [dispatch, id]);
 
     const userIsOwner = selectedRecipe?.authorId === loggedInUser.id;
 
@@ -25,49 +26,60 @@ const RecipeDetailsPage = () => {
         navigate(-1);
     };
 
-    if (!selectedRecipe) return <></>;
     return (
         <div className="p-recipeDetails">
             <div className="p-recipeDetails__meal">
-                <h1>{selectedRecipe.title}</h1>
-                <img className="p-recipeDetails__meal_img" src={PlateIcon} alt="plate and cutlery" />
+                {isLoading ? (
+                    <BeatLoader color="#435334" size={10} />
+                ) : (
+                    <>
+                        <h1>{selectedRecipe.title}</h1>
+                        <img className="p-recipeDetails__meal_img" src={PlateIcon} alt="plate and cutlery" />
+                    </>
+                )}
             </div>
 
             <div className="p-recipeDetails__info">
-                <div className="p-recipeDetails__info_instructions">
-                    <strong>Instructions:</strong>
-                    <ol>
-                        {selectedRecipe.instructions.map((step) => (
-                            <li key={step}>{step}</li>
-                        ))}
-                    </ol>
-                </div>
+                {isLoading ? (
+                    <BeatLoader color="#435334" size={10} />
+                ) : (
+                    <>
+                        <div className="p-recipeDetails__info_instructions">
+                            <strong>Instructions:</strong>
+                            <ol>
+                                {selectedRecipe.instructions.map((step) => (
+                                    <li key={step}>{step}</li>
+                                ))}
+                            </ol>
+                        </div>
 
-                <div className="p-recipeDetails__info_tags">
-                    <strong>Tags:</strong>
-                    <ul>
-                        {selectedRecipe.tags.map((tag) => (
-                            <li key={tag}>{tag}</li>
-                        ))}
-                    </ul>
-                </div>
+                        <div className="p-recipeDetails__info_tags">
+                            <strong>Tags:</strong>
+                            <ul>
+                                {selectedRecipe.tags.map((tag) => (
+                                    <li key={tag}>{tag}</li>
+                                ))}
+                            </ul>
+                        </div>
 
-                <div className="p-recipeDetails__info_buttons">
-                    {userIsOwner && (
-                        <>
-                            <Button onClick={() => navigate(`/edit/${selectedRecipe.id}`)}>Edit</Button>
-                            <Button onClick={handleDelete}>Delete</Button>
-                        </>
-                    )}
-                    <Button
-                        onClick={() => {
-                            navigate(-1);
-                            dispatch(clearSelectedRecipe());
-                        }}
-                    >
-                        Go back
-                    </Button>
-                </div>
+                        <div className="p-recipeDetails__info_buttons">
+                            {userIsOwner && (
+                                <>
+                                    <Button onClick={() => navigate(`/edit/${selectedRecipe.id}`)}>Edit</Button>
+                                    <Button onClick={handleDelete}>Delete</Button>
+                                </>
+                            )}
+                            <Button
+                                onClick={() => {
+                                    navigate(-1);
+                                    dispatch(clearSelectedRecipe());
+                                }}
+                            >
+                                Go back
+                            </Button>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

@@ -8,9 +8,10 @@ import Pagination from '../components/Pagination';
 import RecipeList from '../components/RecipeList';
 import TagFilter from '../components/TagFilter';
 import {Recipe} from '../types';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const HomePage = () => {
-    const {recipeList} = useAppSelector((state: RootState) => state.recipe);
+    const {recipeList, isLoading} = useAppSelector((state: RootState) => state.recipe);
     const {loggedInUser} = useAppSelector((state: RootState) => state.user);
 
     const dispatch = useAppDispatch();
@@ -20,8 +21,7 @@ const HomePage = () => {
     const [showOnlyUsersRecipes, setShowOnlyUsersRecipes] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
-    const recipesPerPage = 6;
+    const [recipesPerPage, setRecipesPerPage] = useState<number>(6);
 
     const tags = recipeList.flatMap((recipe) => recipe.tags);
 
@@ -92,11 +92,35 @@ const HomePage = () => {
                 <div className="p-home__filters_tags">
                     <TagFilter tags={tags} selectedTags={selectedTags} onTagChange={handleTagChange} />
                 </div>
+
+                <div className="p-home__filters_showPerPage">
+                    <label htmlFor="showPerPage">Show per page: </label>
+                    <select
+                        name="showPerPage"
+                        id="showPerpage"
+                        onChange={(e: ChangeEvent<HTMLSelectElement>) => setRecipesPerPage(+e.target.value)}
+                    >
+                        <option value={6}>6</option>
+                        <option value={12}>12</option>
+                        <option value={18}>18</option>
+                    </select>
+                </div>
             </div>
 
-            <RecipeList recipeList={getRecipeList()} />
+            {isLoading ? (
+                <BeatLoader color="#435334" size={10} />
+            ) : (
+                <>
+                    <RecipeList recipeList={getRecipeList()} />
 
-            <Pagination showPerPage={recipesPerPage} total={getTotalPages()} onPageSelect={handlePageSelect} />
+                    <Pagination
+                        showPerPage={recipesPerPage}
+                        total={getTotalPages()}
+                        onPageSelect={handlePageSelect}
+                        activePage={currentPage}
+                    />
+                </>
+            )}
         </div>
     );
 };

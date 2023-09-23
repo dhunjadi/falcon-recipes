@@ -1,0 +1,116 @@
+$modal-width: 50rem;
+$modal-width-sm: 40rem;
+$modal-width-md: 70rem;
+$modal-width-lg: 90rem;
+
+$overlay-color: rgba(0, 0, 0, 0.5);
+
+// Header
+$modal-text-color: $color-primary-dark;
+$modal-header-border-width: 0.1rem;
+$modal-header-font-size: 1.6rem;
+$modal-header-font-weight: 700;
+
+// Footer
+$modal-footer-font-size: 1.4rem;
+
+.c-modal {
+    display: none;
+    font-size: 1rem;
+    color: $modal-text-color;
+
+    &.is-open {
+        display: block;
+    }
+
+    &__content {
+        &_pair {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    &__header + &__content {
+        margin-top: 2rem;
+    }
+
+    &__content + &__footer {
+        margin-top: 3.5rem;
+    }
+
+    &__overlay {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: $overlay-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        outline: none;
+
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    &__header {
+        color: $modal-text-color;
+        display: flex;
+        flex-direction: column;
+
+        &_title {
+            margin-top: 1rem;
+            color: $modal-text-color;
+            font-size: $modal-header-font-size;
+            font-weight: $modal-header-font-weight;
+        }
+    }
+
+    &__body {
+        width: $modal-width;
+        background-color: $color-primary;
+        color: $modal-text-color;
+        border-radius: 1rem;
+        font-size: 1.4rem;
+
+        max-width: calc(100% - #{3rem});
+        max-height: 100vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 1.4rem 2rem 2rem 2rem;
+
+        animation: slideIn 0.3s ease-out;
+
+        .c-modal--sm & {
+            width: $modal-width-sm;
+        }
+        .c-modal--md & {
+            width: $modal-width-md;
+        }
+        .c-modal--lg & {
+            width: $modal-width-lg;
+        }
+
+        @include respond(tablet) {
+            max-width: calc(100% - #{5rem});
+        }
+    }
+
+    &__footer {
+        color: $modal-text-color;
+        font-size: $modal-footer-font-size;
+
+        &_buttons {
+            > * {
+                font-size: 1.2rem;
+            }
+        }
+
+        > .c-group.c-modal__footer_buttons {
+            display: flex;
+            gap: 1rem;
+        }
+    }
+}
